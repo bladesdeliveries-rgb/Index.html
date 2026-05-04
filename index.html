@@ -41,7 +41,6 @@ body {
 .screen { display: none; }
 .screen.active { display: block; }
 
-/* INTRO */
 .intro-tag {
   display: inline-block;
   font-size: 0.68rem;
@@ -74,7 +73,6 @@ body {
 
 .intro-body {
   font-size: 1rem;
-  font-weight: 400;
   line-height: 1.7;
   color: var(--ink-2);
   max-width: 480px;
@@ -88,11 +86,7 @@ body {
   flex-wrap: wrap;
 }
 
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
+.meta-item { display: flex; flex-direction: column; gap: 4px; }
 
 .meta-n {
   font-size: 1.6rem;
@@ -129,7 +123,6 @@ body {
 
 .btn-start:hover { opacity: 0.82; }
 
-/* PROGRESS */
 .prog-wrap { margin-bottom: 64px; }
 
 .prog-header {
@@ -154,11 +147,7 @@ body {
   color: var(--ink-4);
 }
 
-.prog-track {
-  height: 1px;
-  background: var(--line);
-  position: relative;
-}
+.prog-track { height: 1px; background: var(--line); position: relative; }
 
 .prog-fill {
   position: absolute;
@@ -168,7 +157,6 @@ body {
   transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
 }
 
-/* QUESTION */
 .q-wrap { margin-bottom: 48px; }
 
 .q-num {
@@ -228,10 +216,7 @@ body {
   transition: all 0.15s;
 }
 
-.opt input:checked + label .opt-marker {
-  border-color: var(--ink);
-  background: var(--ink);
-}
+.opt input:checked + label .opt-marker { border-color: var(--ink); background: var(--ink); }
 
 .opt input:checked + label .opt-marker::after {
   content: '';
@@ -251,7 +236,6 @@ body {
 
 .opt input:checked + label .opt-text { color: var(--ink); font-weight: 500; }
 
-/* NAV */
 .nav {
   display: flex;
   align-items: center;
@@ -303,7 +287,6 @@ body {
   letter-spacing: 0.02em;
 }
 
-/* REFLECTION */
 .ref-tag {
   font-size: 0.68rem;
   font-weight: 600;
@@ -352,7 +335,6 @@ textarea {
 textarea:focus { border-color: var(--ink-3); }
 textarea::placeholder { color: var(--ink-4); }
 
-/* RESULT */
 .res-tag {
   font-size: 0.68rem;
   font-weight: 600;
@@ -375,6 +357,7 @@ textarea::placeholder { color: var(--ink-4); }
   line-height: 1.05;
   color: var(--ink);
   margin-bottom: 24px;
+  white-space: pre-line;
 }
 
 .res-rule { height: 1px; background: var(--line); margin-bottom: 24px; }
@@ -384,7 +367,52 @@ textarea::placeholder { color: var(--ink-4); }
   color: var(--ink-2);
   line-height: 1.75;
   max-width: 520px;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
+}
+
+.eo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.eo-cell {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 16px 18px;
+}
+
+.eo-dim {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 6px;
+}
+
+.eo-bar-track {
+  height: 2px;
+  background: var(--line);
+  border-radius: 999px;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.eo-bar-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--ink);
+}
+
+.eo-score {
+  font-size: 0.72rem;
+  color: var(--ink-3);
+  font-weight: 500;
 }
 
 .score-row {
@@ -394,14 +422,10 @@ textarea::placeholder { color: var(--ink-4); }
   border: 1px solid var(--line);
   border-radius: 4px;
   overflow: hidden;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
 }
 
-.score-cell {
-  padding: 24px 20px;
-  border-right: 1px solid var(--line);
-}
-
+.score-cell { padding: 24px 20px; border-right: 1px solid var(--line); }
 .score-cell:last-child { border-right: none; }
 
 .sc-label {
@@ -421,12 +445,7 @@ textarea::placeholder { color: var(--ink-4); }
   line-height: 1;
 }
 
-.sc-sub {
-  font-size: 0.68rem;
-  color: var(--ink-4);
-  margin-top: 5px;
-  letter-spacing: 0.04em;
-}
+.sc-sub { font-size: 0.68rem; color: var(--ink-4); margin-top: 5px; letter-spacing: 0.04em; }
 
 .next-head {
   font-size: 0.68rem;
@@ -442,9 +461,32 @@ textarea::placeholder { color: var(--ink-4); }
   color: var(--ink-2);
   line-height: 1.7;
   max-width: 480px;
-  margin-bottom: 48px;
+  margin-bottom: 40px;
   padding-left: 16px;
   border-left: 2px solid var(--line);
+}
+
+.disclaimer {
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 20px 22px;
+  margin-bottom: 40px;
+}
+
+.disclaimer-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 8px;
+}
+
+.disclaimer-text {
+  font-size: 0.8rem;
+  color: var(--ink-3);
+  line-height: 1.7;
 }
 
 .res-actions { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -473,6 +515,7 @@ textarea::placeholder { color: var(--ink-4); }
   .score-row { grid-template-columns: 1fr; }
   .score-cell { border-right: none; border-bottom: 1px solid var(--line); }
   .score-cell:last-child { border-bottom: none; }
+  .eo-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -514,14 +557,12 @@ textarea::placeholder { color: var(--ink-4); }
         <div class="prog-fill" id="progFill" style="width:0%"></div>
       </div>
     </div>
-
     <div class="q-wrap">
       <div class="q-num" id="qNum">01 / 10</div>
       <div class="q-text" id="qText"></div>
       <div class="opts" id="optsList"></div>
       <div class="err" id="errNote">Select an answer to continue.</div>
     </div>
-
     <div class="nav">
       <button class="btn-back" id="btnBack" onclick="goBack()" disabled>&#8592; Back</button>
       <button class="btn-next" id="btnNext" onclick="goNext()">Next &#8594;</button>
@@ -545,6 +586,8 @@ textarea::placeholder { color: var(--ink-4); }
     <div class="res-rule"></div>
     <div class="res-body" id="resBody"></div>
 
+    <div class="eo-grid" id="eoGrid"></div>
+
     <div class="score-row">
       <div class="score-cell">
         <div class="sc-label">Total score</div>
@@ -554,17 +597,22 @@ textarea::placeholder { color: var(--ink-4); }
       <div class="score-cell">
         <div class="sc-label">Products signal</div>
         <div class="sc-value" id="scProd"></div>
-        <div class="sc-sub">out of 15</div>
+        <div class="sc-sub">out of 20</div>
       </div>
       <div class="score-cell">
         <div class="sc-label">Services signal</div>
         <div class="sc-value" id="scServ"></div>
-        <div class="sc-sub">out of 15</div>
+        <div class="sc-sub">out of 20</div>
       </div>
     </div>
 
     <div class="next-head">Where to focus next</div>
     <div class="next-body" id="nextBody"></div>
+
+    <div class="disclaimer">
+      <div class="disclaimer-label">About this assessment</div>
+      <div class="disclaimer-text">This tool is designed for reflection, not prediction. The scoring is informed by the Entrepreneurial Orientation (EO) framework, a widely referenced model in entrepreneurship research. It does not replace professional business advice, mentorship, or lived market experience. Use it as a starting point for honest self-examination, not as a definitive verdict on your path.</div>
+    </div>
 
     <div class="res-actions">
       <button class="btn-start" onclick="window.print()">Save as PDF</button>
@@ -574,6 +622,34 @@ textarea::placeholder { color: var(--ink-4); }
 
 </div>
 <script>
+/*
+  EO Framework mapping (Entrepreneurial Orientation, Lumpkin & Dess 1996):
+
+  PRODUCT signals (q1, q3, q4, q6)
+    q1 - Innovativeness: preference for creating/curating over people-facing work
+    q3 - Proactiveness: comfort with systems, logistics, fulfilment
+    q4 - Risk-taking (reward): desire for scalable, time-decoupled income
+    q6 - Risk-taking (capacity): capital availability to absorb upfront costs
+
+  SERVICE signals (q2, q7, q8, q9)
+    q2 - Competitiveness via expertise: billable personal skill already exists
+    q7 - Autonomy + relationship energy: energised by individual client work
+    q8 - Conscientiousness: willingness to handle disputes and client friction
+    q9 - Proactiveness: already validated with real customers
+
+  READINESS signals only (q5, q10)
+    q5 - Market clarity: can articulate customer and differentiation
+    q10 - Financial runway: can sustain 3-6 months without revenue
+
+  Max product signal: 4 questions x 5 = 20
+  Max service signal: 4 questions x 5 = 20
+  Max readiness signal: 2 questions x 5 = 10
+  Total max: 50
+
+  Classification threshold: diff >= 3 = product, diff <= -3 = service, else hybrid
+  Readiness bands: total >= 38 = Strong, >= 28 = Moderate, else Not Yet Ready
+*/
+
 const Qs = [
   {id:'q1', text:'I enjoy creating, sourcing, or curating physical or digital items more than working directly with people.'},
   {id:'q2', text:'I have a specific skill or expertise that others have paid for or asked me to perform on their behalf.'},
@@ -588,8 +664,19 @@ const Qs = [
 ];
 
 const OPTS = ['Strongly Disagree','Disagree','Neutral','Agree','Strongly Agree'];
-const PROD = ['q3','q4','q6'];
-const SERV = ['q2','q7','q9'];
+
+const PROD = ['q1','q3','q4','q6'];
+const SERV = ['q2','q7','q8','q9'];
+
+const EO_DIMS = [
+  { label: 'Innovativeness', ids: ['q1'], max: 5 },
+  { label: 'Risk Tolerance', ids: ['q4','q6'], max: 10 },
+  { label: 'Proactiveness',  ids: ['q3','q9'], max: 10 },
+  { label: 'Relationship Energy', ids: ['q7','q8'], max: 10 },
+  { label: 'Market Clarity', ids: ['q5'], max: 5 },
+  { label: 'Runway Readiness', ids: ['q10'], max: 5 }
+];
+
 const ans = {};
 let cur = 0;
 
@@ -637,27 +724,27 @@ function calcResult() {
   const ps = PROD.reduce((s,id) => s+(ans[id]||0), 0);
   const ss = SERV.reduce((s,id) => s+(ans[id]||0), 0);
   const diff = ps - ss;
-  const type = diff >= 2 ? 'prod' : diff <= -2 ? 'serv' : 'mix';
-  const band = total >= 40 ? 'Strong readiness.' : total >= 25 ? 'Moderate readiness.' : 'Not yet ready.';
+  const type = diff >= 3 ? 'prod' : diff <= -3 ? 'serv' : 'mix';
+  const band = total >= 38 ? 'Strong readiness.' : total >= 28 ? 'Moderate readiness.' : 'Not yet ready.';
 
   const D = {
     prod: {
       tag: 'Products', tc: 'res-tag-green',
       title: band + '\nYou lean toward\na product business.',
-      body: 'Your answers point to a model built on repeatable sales, systems, and scalable fulfilment rather than trading time for money. The strongest signals in your responses relate to operational comfort, income scalability, and upfront capital.',
-      next: 'Validate demand before investing in stock or infrastructure. Understand your unit economics and fulfilment costs. Map out required startup capital and give yourself a clear runway before committing.'
+      body: 'Your responses show high innovativeness, comfort with operational systems, and a preference for scalable income. These are the core signals the Entrepreneurial Orientation framework associates with product-led founders. You think in repeatable processes rather than hourly relationships.',
+      next: 'Validate demand before investing in stock or infrastructure. Map your unit economics and fulfilment costs. Define your runway clearly before committing capital.'
     },
     serv: {
       tag: 'Services', tc: 'res-tag-blue',
       title: band + '\nYou lean toward\na service business.',
-      body: 'Your answers reflect a strength in client relationships, expertise-led value, and solving custom problems for individuals or businesses. The strongest signals relate to personal skill, relationship energy, and market validation.',
-      next: 'Package your offer into something concrete and clearly priced. Avoid scope creep from the start. Focus on landing three paying clients before building anything else.'
+      body: 'Your responses show strong relationship energy, an existing billable expertise, and a willingness to work closely with clients through friction. The EO framework maps these traits to founders who create value through direct, expertise-led delivery rather than scalable product systems.',
+      next: 'Package your offer into something concrete and clearly priced. Set scope boundaries early. Focus on landing three paying clients before building anything else.'
     },
     mix: {
       tag: 'Hybrid', tc: 'res-tag-amber',
       title: band + '\nA productized service\nmay suit you best.',
-      body: 'Your balanced scores suggest neither a pure product nor a pure service model fits cleanly. A hybrid approach works well here: a service delivered in fixed packages, retainers, or paired with a digital product you build once and sell repeatedly.',
-      next: 'Choose one narrow niche and make your offer easy to understand and easy to buy. Build repeatable delivery first, then layer on scalable assets over time.'
+      body: 'Your scores show no dominant signal in either direction. The EO framework suggests founders in this position tend to do well with a productized service model: expertise delivered in fixed, repeatable packages rather than either open-ended client work or pure product fulfilment.',
+      next: 'Choose one narrow niche and define a fixed deliverable. Price it clearly. Build the delivery process before scaling.'
     }
   };
 
@@ -671,6 +758,13 @@ function calcResult() {
   document.getElementById('scProd').textContent = ps;
   document.getElementById('scServ').textContent = ss;
   document.getElementById('nextBody').textContent = d.next;
+
+  document.getElementById('eoGrid').innerHTML = EO_DIMS.map(dim => {
+    const score = dim.ids.reduce((s,id) => s+(ans[id]||0), 0);
+    const pct = Math.round((score / dim.max) * 100);
+    return '<div class="eo-cell"><div class="eo-dim">'+dim.label+'</div><div class="eo-bar-track"><div class="eo-bar-fill" style="width:'+pct+'%"></div></div><div class="eo-score">'+score+' / '+dim.max+'</div></div>';
+  }).join('');
+
   show('s-result');
   document.getElementById('progFill').style.width = '100%';
   document.getElementById('progPct').textContent = '100%';
