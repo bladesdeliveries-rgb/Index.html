@@ -1,327 +1,663 @@
-<!DOCTYPE html>
+html = """<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Business Readiness Quiz</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    :root {
-      --bg: #0a0a0f; --surface: #111118; --surface-2: #1a1a24;
-      --border: rgba(255,255,255,0.07); --text: #f0f0f5; --muted: #6b7280;
-      --green: #22c55e; --blue: #3b82f6; --amber: #f59e0b;
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg); color: var(--text);
-      min-height: 100vh; display: flex; align-items: center;
-      justify-content: center; padding: 24px 16px;
-    }
-    body::before {
-      content: ''; position: fixed; top: -20%; left: 50%; transform: translateX(-50%);
-      width: 600px; height: 400px;
-      background: radial-gradient(ellipse, rgba(59,130,246,0.08) 0%, transparent 70%);
-      pointer-events: none; z-index: 0;
-    }
-    .container { position: relative; z-index: 1; width: 100%; max-width: 600px; }
-    .header { text-align: center; margin-bottom: 32px; }
-    .chip {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 14px; background: rgba(59,130,246,0.1);
-      border: 1px solid rgba(59,130,246,0.2); border-radius: 999px;
-      font-size: 0.75rem; font-weight: 500; color: #93c5fd;
-      letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px;
-    }
-    h1 { font-size: clamp(1.5rem,4vw,2rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: #fff; }
-    h1 span { background: linear-gradient(90deg,#3b82f6,#22c55e); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .subtitle { margin-top: 10px; font-size: 0.9rem; color: var(--muted); }
-    .progress-wrap { margin-bottom: 28px; }
-    .progress-meta { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.8rem; }
-    .progress-label { color: var(--muted); }
-    .progress-count { color: #fff; font-weight: 600; }
-    .progress-track { height: 3px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
-    .progress-fill { height: 100%; background: linear-gradient(90deg,#3b82f6,#22c55e); border-radius: 999px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
-    .card {
-      background: var(--surface); border: 1px solid var(--border);
-      border-radius: 20px; padding: 32px;
-      box-shadow: 0 0 0 1px rgba(255,255,255,0.02), 0 32px 64px rgba(0,0,0,0.4);
-    }
-    .screen { display: none; }
-    .screen.active { display: block; }
-    .intro-icon {
-      width: 56px; height: 56px;
-      background: linear-gradient(135deg,rgba(59,130,246,0.2),rgba(34,197,94,0.2));
-      border: 1px solid rgba(255,255,255,0.08); border-radius: 16px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem; margin-bottom: 20px;
-    }
-    .intro-title { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
-    .intro-sub { font-size: 0.88rem; color: #6b7280; line-height: 1.65; }
-    .intro-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 20px 0 28px; }
-    .intro-list li { display: flex; align-items: center; gap: 10px; font-size: 0.88rem; color: #9ca3af; }
-    .intro-list li::before {
-      content: '\\2713'; width: 20px; height: 20px;
-      background: rgba(34,197,94,0.12); border-radius: 50%;
-      color: #4ade80; font-size: 0.7rem; font-weight: 700;
-      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    }
-    .q-number { font-size: 0.75rem; font-weight: 600; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
-    .q-text { font-size: 1.1rem; font-weight: 500; line-height: 1.55; color: #fff; margin-bottom: 8px; }
-    .q-hint { font-size: 0.8rem; color: var(--muted); margin-bottom: 24px; display: flex; align-items: center; gap: 5px; }
-    .q-hint::before { content: '\\2192'; color: #3b82f6; }
-    .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
-    .option input { display: none; }
-    .option label {
-      display: flex; align-items: center; gap: 14px; padding: 14px 18px;
-      background: var(--surface-2); border: 1px solid var(--border);
-      border-radius: 14px; cursor: pointer; transition: all 0.2s ease; user-select: none;
-    }
-    .option label:hover { border-color: rgba(59,130,246,0.35); background: rgba(59,130,246,0.05); }
-    .option input:checked + label { border-color: #3b82f6; background: rgba(59,130,246,0.1); }
-    .dot {
-      width: 20px; height: 20px; border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.2); flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center; transition: all 0.2s;
-    }
-    .option input:checked + label .dot { border-color: #3b82f6; background: #3b82f6; }
-    .option input:checked + label .dot::after { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #fff; }
-    .option-num { font-size: 0.75rem; font-weight: 700; color: var(--muted); width: 14px; text-align: center; flex-shrink: 0; }
-    .option input:checked + label .option-num { color: #93c5fd; }
-    .option-text { font-size: 0.9rem; color: #d1d5db; flex: 1; }
-    .option input:checked + label .option-text { color: #fff; }
-    .nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-    .btn { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; border: none; border-radius: 12px; font: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s ease; }
-    .btn-primary { background: linear-gradient(135deg,#3b82f6,#2563eb); color: #fff; box-shadow: 0 4px 16px rgba(59,130,246,0.3); }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
-    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
-    .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.15); }
-    .btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none !important; }
-    .btn-full { width: 100%; justify-content: center; padding: 14px; }
-    .reflection-icon { width: 48px; height: 48px; background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 16px; }
-    .ref-title { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 6px; }
-    .ref-sub { font-size: 0.88rem; color: #6b7280; line-height: 1.6; }
-    textarea { width: 100%; min-height: 130px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; color: var(--text); padding: 14px 16px; font: inherit; font-size: 0.9rem; resize: vertical; outline: none; transition: border-color 0.2s; margin-top: 16px; margin-bottom: 24px; }
-    textarea:focus { border-color: rgba(59,130,246,0.4); }
-    textarea::placeholder { color: #374151; }
-    .result-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 1.6rem; margin-bottom: 20px; }
-    .result-icon.green { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.2); }
-    .result-icon.blue  { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.2); }
-    .result-icon.amber { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); }
-    .result-tag { display: inline-block; padding: 4px 12px; border-radius: 999px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 10px; }
-    .tag-green { background: rgba(34,197,94,0.12); color: #86efac; }
-    .tag-blue  { background: rgba(59,130,246,0.12); color: #93c5fd; }
-    .tag-amber { background: rgba(245,158,11,0.12); color: #fcd34d; }
-    .result-heading { font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: -0.01em; }
-    .result-body { font-size: 0.9rem; color: #9ca3af; line-height: 1.7; margin-bottom: 24px; }
-    .score-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 24px; }
-    .score-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 12px; text-align: center; }
-    .score-card .label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
-    .score-card .value { font-size: 1.3rem; font-weight: 700; color: #fff; }
-    .score-card .sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
-    .divider { height: 1px; background: var(--border); margin: 20px 0; }
-    .detail-text { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
-    .result-actions { display: flex; gap: 10px; margin-top: 24px; flex-wrap: wrap; }
-    .error-msg { display: none; font-size: 0.82rem; color: #fca5a5; background: rgba(127,29,29,0.2); border: 1px solid rgba(239,68,68,0.25); border-radius: 10px; padding: 10px 14px; margin-bottom: 16px; }
-    @media (max-width:480px) { .card { padding: 24px 18px; } .score-card .value { font-size: 1.1rem; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Business Readiness</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  background: #000;
+  color: #f5f5f7;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+.eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #6e6e73;
+  margin-bottom: 14px;
+}
+
+.headline {
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: #f5f5f7;
+  text-align: center;
+  max-width: 560px;
+}
+
+.headline em {
+  font-style: normal;
+  background: linear-gradient(90deg, #2997ff, #30d158);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtext {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #6e6e73;
+  text-align: center;
+  line-height: 1.6;
+  max-width: 400px;
+}
+
+.checklist {
+  list-style: none;
+  margin: 36px 0 44px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.checklist li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: #aeaeb2;
+}
+
+.check-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: rgba(48, 209, 88, 0.12);
+  border: 1px solid rgba(48, 209, 88, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.65rem;
+  color: #30d158;
+}
+
+.btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: #2997ff;
+  color: #fff;
+  border: none;
+  border-radius: 980px;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.01em;
+}
+
+.btn-cta:hover {
+  background: #0077ed;
+  transform: scale(1.02);
+}
+
+.progress-bar-wrap {
+  width: 100%;
+  max-width: 540px;
+  margin-bottom: 48px;
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.78rem;
+  color: #6e6e73;
+}
+
+.progress-track {
+  height: 2px;
+  background: #1d1d1f;
+  border-radius: 999px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2997ff, #30d158);
+  border-radius: 999px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.question-wrap {
+  width: 100%;
+  max-width: 540px;
+}
+
+.q-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #6e6e73;
+  margin-bottom: 16px;
+}
+
+.q-body {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.45;
+  color: #f5f5f7;
+  margin-bottom: 10px;
+}
+
+.q-context {
+  font-size: 0.82rem;
+  color: #48484a;
+  margin-bottom: 32px;
+}
+
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 36px;
+}
+
+.opt input { display: none; }
+
+.opt label {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #111;
+  border: 1px solid #1d1d1f;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.opt label:hover {
+  border-color: #2997ff;
+  background: rgba(41, 151, 255, 0.04);
+}
+
+.opt input:checked + label {
+  border-color: #2997ff;
+  background: rgba(41, 151, 255, 0.08);
+}
+
+.opt-ring {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1.5px solid #3a3a3c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.18s;
+}
+
+.opt input:checked + label .opt-ring {
+  border-color: #2997ff;
+  background: #2997ff;
+}
+
+.opt input:checked + label .opt-ring::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.opt-n {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #48484a;
+  width: 12px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.opt input:checked + label .opt-n { color: #2997ff; }
+
+.opt-label {
+  font-size: 0.88rem;
+  color: #aeaeb2;
+  flex: 1;
+}
+
+.opt input:checked + label .opt-label { color: #f5f5f7; }
+
+.nav-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #1d1d1f;
+  border-radius: 980px;
+  color: #6e6e73;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.btn-back:hover { border-color: #3a3a3c; color: #aeaeb2; }
+.btn-back:disabled { opacity: 0.3; cursor: default; }
+
+.btn-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  background: #2997ff;
+  border: none;
+  border-radius: 980px;
+  color: #fff;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.btn-next:hover { background: #0077ed; }
+
+.error-note {
+  display: none;
+  font-size: 0.8rem;
+  color: #ff453a;
+  margin-bottom: 16px;
+}
+
+.reflection-wrap {
+  width: 100%;
+  max-width: 540px;
+}
+
+.ref-icon {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.ref-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: #f5f5f7;
+  margin-bottom: 10px;
+}
+
+.ref-sub {
+  font-size: 0.9rem;
+  color: #6e6e73;
+  line-height: 1.65;
+  margin-bottom: 24px;
+  max-width: 420px;
+}
+
+textarea {
+  width: 100%;
+  min-height: 120px;
+  background: #111;
+  border: 1px solid #1d1d1f;
+  border-radius: 14px;
+  color: #f5f5f7;
+  padding: 16px 18px;
+  font: inherit;
+  font-size: 0.9rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.18s;
+  margin-bottom: 28px;
+}
+
+textarea:focus { border-color: #2997ff; }
+textarea::placeholder { color: #3a3a3c; }
+
+.result-wrap {
+  width: 100%;
+  max-width: 540px;
+  text-align: center;
+}
+
+.result-badge {
+  display: inline-block;
+  padding: 5px 14px;
+  border-radius: 980px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.badge-green { background: rgba(48,209,88,0.1); color: #30d158; border: 1px solid rgba(48,209,88,0.2); }
+.badge-blue  { background: rgba(41,151,255,0.1); color: #2997ff; border: 1px solid rgba(41,151,255,0.2); }
+.badge-amber { background: rgba(255,159,10,0.1); color: #ff9f0a; border: 1px solid rgba(255,159,10,0.2); }
+
+.result-title {
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  color: #f5f5f7;
+  margin-bottom: 14px;
+  line-height: 1.2;
+}
+
+.result-body {
+  font-size: 0.92rem;
+  color: #6e6e73;
+  line-height: 1.7;
+  margin-bottom: 36px;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.score-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.score-tile {
+  background: #111;
+  border: 1px solid #1d1d1f;
+  border-radius: 14px;
+  padding: 18px 12px;
+  text-align: center;
+}
+
+.score-tile .s-label {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #48484a;
+  margin-bottom: 8px;
+}
+
+.score-tile .s-value {
+  font-size: 1.4rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f5f5f7;
+}
+
+.score-tile .s-sub {
+  font-size: 0.68rem;
+  color: #48484a;
+  margin-top: 4px;
+}
+
+.rule {
+  height: 1px;
+  background: #1d1d1f;
+  margin: 24px 0;
+}
+
+.next-step {
+  font-size: 0.85rem;
+  color: #48484a;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.result-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 28px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 22px;
+  background: transparent;
+  border: 1px solid #1d1d1f;
+  border-radius: 980px;
+  color: #6e6e73;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.btn-outline:hover { border-color: #3a3a3c; color: #aeaeb2; }
+
+.screen { display: none; }
+.screen.active { display: flex; flex-direction: column; align-items: center; }
+
+@media (max-width: 480px) {
+  .score-tile .s-value { font-size: 1.15rem; }
+  .score-grid { gap: 8px; }
+}
+</style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div class="chip">Self-Assessment</div>
-    <h1>Product vs <span>Service</span> Business</h1>
-    <p class="subtitle">10 questions &middot; 3 minutes &middot; Instant results</p>
+
+<div class="page">
+
+  <div class="screen active" id="s-intro">
+    <div class="eyebrow">Self-Assessment</div>
+    <h1 class="headline">Product vs <em>Service</em><br>Business</h1>
+    <p class="subtext">10 honest questions. Instant clarity on which business model fits you right now.</p>
+    <ul class="checklist">
+      <li><span class="check-circle">&#10003;</span> 3 minutes to complete</li>
+      <li><span class="check-circle">&#10003;</span> Results calculated locally in your browser</li>
+      <li><span class="check-circle">&#10003;</span> No data ever leaves your device</li>
+    </ul>
+    <button class="btn-cta" onclick="startQuiz()">Begin &#8594;</button>
   </div>
 
-  <div class="progress-wrap" id="progressWrap" style="display:none">
-    <div class="progress-meta">
-      <span class="progress-label" id="progressLabel">Question 1 of 10</span>
-      <span class="progress-count" id="progressCount">0%</span>
+  <div class="screen" id="s-questions">
+    <div class="progress-bar-wrap">
+      <div class="progress-meta">
+        <span id="progLabel">Question 1 of 10</span>
+        <span id="progPct">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progFill" style="width:0%"></div>
+      </div>
     </div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progressFill" style="width:0%"></div>
+    <div class="question-wrap">
+      <div class="q-label" id="qLabel">Question 1 of 10</div>
+      <div class="q-body" id="qBody"></div>
+      <div class="q-context" id="qCtx"></div>
+      <div class="options-list" id="optsList"></div>
+      <div class="error-note" id="errNote">Please select an answer to continue.</div>
+      <div class="nav-row">
+        <button class="btn-back" id="btnBack" onclick="goBack()" disabled>&#8592; Back</button>
+        <button class="btn-next" id="btnNext" onclick="goNext()">Next &#8594;</button>
+      </div>
     </div>
   </div>
 
-  <div class="card">
-    <!-- Intro -->
-    <div class="screen active" id="screen-intro">
-      <div class="intro-icon">&#x1F9ED;</div>
-      <div class="intro-title">Ready to find your path?</div>
-      <div class="intro-sub">Rate 10 statements honestly. No right or wrong answers &mdash; just your current reality.</div>
-      <ul class="intro-list">
-        <li>Takes about 3 minutes to complete</li>
-        <li>Results calculated instantly in your browser</li>
-        <li>No data ever leaves your device</li>
-        <li>Reveals if you lean Products, Services, or Hybrid</li>
-      </ul>
-      <button class="btn btn-primary btn-full" onclick="startQuiz()">Start Assessment &#x2192;</button>
-    </div>
-
-    <!-- Questions -->
-    <div class="screen" id="screen-questions">
-      <div class="q-number" id="qNumber">Question 1 of 10</div>
-      <div class="q-text" id="qText"></div>
-      <div class="q-hint" id="qHint"></div>
-      <div class="options" id="optionsWrap"></div>
-      <div class="error-msg" id="errorMsg">Please select an answer to continue.</div>
-      <div class="nav">
-        <button class="btn btn-ghost" id="btnBack" onclick="goBack()">&#x2190; Back</button>
-        <button class="btn btn-primary" id="btnNext" onclick="goNext()">Next &#x2192;</button>
+  <div class="screen" id="s-reflection">
+    <div class="reflection-wrap">
+      <div class="ref-icon">&#x1F4AC;</div>
+      <div class="ref-title">One final question.</div>
+      <div class="ref-sub">What is the single biggest obstacle you foresee in starting your business, and how do you plan to overcome it?</div>
+      <textarea id="reflection" placeholder="Optional, but the most valuable thing you can write before you launch."></textarea>
+      <div class="nav-row">
+        <button class="btn-back" onclick="goToQ(9)">&#8592; Back</button>
+        <button class="btn-next" onclick="calcResult()" style="background:#30d158">See Results &#8594;</button>
       </div>
     </div>
+  </div>
 
-    <!-- Reflection -->
-    <div class="screen" id="screen-reflection">
-      <div class="reflection-icon">&#x1F4AD;</div>
-      <div class="ref-title">One last thing</div>
-      <div class="ref-sub">What is the one biggest obstacle you foresee in starting your business, and how do you plan to overcome it?</div>
-      <textarea id="reflection" placeholder="Optional &mdash; but answering this honestly is one of the most valuable things you can do before launching."></textarea>
-      <div class="nav">
-        <button class="btn btn-ghost" onclick="goToQuestion(9)">&#x2190; Back</button>
-        <button class="btn btn-primary" onclick="showResult()" style="background:linear-gradient(135deg,#22c55e,#16a34a);box-shadow:0 4px 16px rgba(34,197,94,0.3)">See My Results &#x2726;</button>
+  <div class="screen" id="s-result">
+    <div class="result-wrap">
+      <div class="result-badge" id="resBadge"></div>
+      <div class="result-title" id="resTitle"></div>
+      <div class="result-body" id="resBody"></div>
+      <div class="score-grid">
+        <div class="score-tile"><div class="s-label">Total Score</div><div class="s-value" id="scTotal"></div><div class="s-sub">out of 50</div></div>
+        <div class="score-tile"><div class="s-label">Products</div><div class="s-value" id="scProd"></div><div class="s-sub">signal</div></div>
+        <div class="score-tile"><div class="s-label">Services</div><div class="s-value" id="scServ"></div><div class="s-sub">signal</div></div>
       </div>
-    </div>
-
-    <!-- Result -->
-    <div class="screen" id="screen-result">
-      <div class="result-icon" id="resultIcon">&#x1F3AF;</div>
-      <div class="result-tag" id="resultTag">Result</div>
-      <div class="result-heading" id="resultHeading">Your result</div>
-      <div class="result-body" id="resultBody"></div>
-      <div class="score-row">
-        <div class="score-card"><div class="label">Total</div><div class="value" id="scoreTotal">&mdash;</div><div class="sub">out of 50</div></div>
-        <div class="score-card"><div class="label">Products</div><div class="value" id="scoreProduct">&mdash;</div><div class="sub">signal</div></div>
-        <div class="score-card"><div class="label">Services</div><div class="value" id="scoreService">&mdash;</div><div class="sub">signal</div></div>
-      </div>
-      <div class="divider"></div>
-      <div class="detail-text" id="detailText"></div>
+      <div class="rule"></div>
+      <div class="next-step" id="nextStep"></div>
       <div class="result-actions">
-        <button class="btn btn-primary" onclick="window.print()">Print / Save PDF</button>
-        <button class="btn btn-ghost" onclick="resetQuiz()">Start Over</button>
+        <button class="btn-cta" onclick="window.print()">Save as PDF</button>
+        <button class="btn-outline" onclick="resetAll()">Start Over</button>
       </div>
     </div>
   </div>
+
 </div>
 
 <script>
-  const questions = [
-    {id:'q1',text:'I enjoy creating, sourcing, or curating physical or digital items more than working directly with people.',hint:'High score leans toward Products'},
-    {id:'q2',text:'I have a specific skill or expertise that others have paid for or asked me to perform on their behalf.',hint:'High score is a strong Services signal'},
-    {id:'q3',text:'I am comfortable managing inventory, logistics, packaging, or fulfilment processes.',hint:'High score leans toward Products'},
-    {id:'q4',text:'I prefer income that can scale without requiring more of my time as demand grows.',hint:'High score leans toward Products'},
-    {id:'q5',text:'I can clearly describe my ideal customer and why they would choose me over existing alternatives.',hint:'Readiness indicator for either path'},
-    {id:'q6',text:'I have enough capital or access to funding to absorb upfront costs before turning a profit.',hint:'Low score is a caution flag, especially for product businesses'},
-    {id:'q7',text:'I am energised by solving individual client problems and building personal relationships.',hint:'High score leans toward Services'},
-    {id:'q8',text:'I am willing to handle customer complaints, returns, or disputes with patience and professionalism.',hint:'Low score means reconsider entrepreneurship altogether'},
-    {id:'q9',text:'I have tested my idea by asking potential customers if they would actually pay for it.',hint:'Strong readiness indicator regardless of path'},
-    {id:'q10',text:'My financial situation allows me to go 3 to 6 months without consistent revenue while I build.',hint:'Low score means consider starting as a side income first'}
-  ];
-  const labels=['Strongly Disagree','Disagree','Neutral','Agree','Strongly Agree'];
-  const productIds=['q3','q4','q6'];
-  const serviceIds=['q2','q7','q9'];
-  const answers={};
-  let currentQ=0;
+const Qs = [
+  {id:'q1', text:'I enjoy creating, sourcing, or curating physical or digital items more than working directly with people.', ctx:'High score leans toward Products'},
+  {id:'q2', text:'I have a specific skill or expertise that others have paid for or asked me to perform on their behalf.', ctx:'High score is a strong Services indicator'},
+  {id:'q3', text:'I am comfortable managing inventory, logistics, packaging, or fulfilment processes.', ctx:'High score leans toward Products'},
+  {id:'q4', text:'I prefer income that scales without requiring more of my time as demand grows.', ctx:'High score leans toward Products'},
+  {id:'q5', text:'I can clearly describe my ideal customer and explain why they would choose me over any existing alternative.', ctx:'Readiness indicator for either path'},
+  {id:'q6', text:'I have enough capital or access to funding to absorb upfront costs before turning a profit.', ctx:'Low score is a caution flag, particularly for product businesses'},
+  {id:'q7', text:'I am energised by solving individual client problems and building long-term personal relationships.', ctx:'High score leans toward Services'},
+  {id:'q8', text:'I am willing to handle complaints, returns, or disputes calmly and professionally.', ctx:'Low score warrants serious reflection before launching'},
+  {id:'q9', text:'I have tested my idea by asking real potential customers whether they would actually pay for it.', ctx:'Strong readiness indicator regardless of path'},
+  {id:'q10', text:'My financial position allows me to go three to six months without consistent revenue while I build.', ctx:'Low score means consider starting as a side income first'}
+];
 
-  function startQuiz(){
-    document.getElementById('screen-intro').classList.remove('active');
-    document.getElementById('screen-questions').classList.add('active');
-    document.getElementById('progressWrap').style.display='block';
-    renderQuestion(0);
-  }
+const OPTS = ['Strongly Disagree','Disagree','Neutral','Agree','Strongly Agree'];
+const PROD_IDS = ['q3','q4','q6'];
+const SERV_IDS = ['q2','q7','q9'];
+const ans = {};
+let cur = 0;
 
-  function renderQuestion(idx){
-    currentQ=idx;
-    const q=questions[idx];
-    document.getElementById('qNumber').textContent='Question '+(idx+1)+' of '+questions.length;
-    document.getElementById('qText').textContent=q.text;
-    document.getElementById('qHint').textContent=q.hint;
-    document.getElementById('btnBack').disabled=idx===0;
-    document.getElementById('btnNext').textContent=idx===questions.length-1?'Continue':'Next';
-    document.getElementById('errorMsg').style.display='none';
-    const wrap=document.getElementById('optionsWrap');
-    wrap.innerHTML=labels.map((label,i)=>{
-      const val=i+1;
-      const checked=answers[q.id]===val?'checked':'';
-      return '<div class="option"><input type="radio" name="q" id="opt'+val+'" value="'+val+'" '+checked+' onchange="selectAnswer('+val+')"><label for="opt'+val+'"><span class="dot"></span><span class="option-num">'+val+'</span><span class="option-text">'+label+'</span></label></div>';
-    }).join('');
-    updateProgress(idx);
-  }
+function startQuiz() {
+  show('s-questions');
+  renderQ(0);
+}
 
-  function selectAnswer(val){
-    answers[questions[currentQ].id]=val;
-    document.getElementById('errorMsg').style.display='none';
-  }
+function renderQ(i) {
+  cur = i;
+  const q = Qs[i];
+  const pct = Math.round((i / Qs.length) * 100);
+  document.getElementById('progLabel').textContent = 'Question ' + (i+1) + ' of ' + Qs.length;
+  document.getElementById('progPct').textContent = pct + '%';
+  document.getElementById('progFill').style.width = pct + '%';
+  document.getElementById('qLabel').textContent = 'Question ' + (i+1) + ' of ' + Qs.length;
+  document.getElementById('qBody').textContent = q.text;
+  document.getElementById('qCtx').textContent = q.ctx;
+  document.getElementById('btnBack').disabled = i === 0;
+  document.getElementById('btnNext').textContent = i === Qs.length - 1 ? 'Continue \u2192' : 'Next \u2192';
+  document.getElementById('errNote').style.display = 'none';
+  document.getElementById('optsList').innerHTML = OPTS.map((l, idx) => {
+    const v = idx + 1;
+    const c = ans[q.id] === v ? 'checked' : '';
+    return '<div class="opt"><input type="radio" name="q" id="o'+v+'" value="'+v+'" '+c+' onchange="pick('+v+')"><label for="o'+v+'"><span class="opt-ring"></span><span class="opt-n">'+v+'</span><span class="opt-label">'+l+'</span></label></div>';
+  }).join('');
+}
 
-  function goNext(){
-    if(!answers[questions[currentQ].id]){
-      document.getElementById('errorMsg').style.display='block';
-      return;
-    }
-    if(currentQ<questions.length-1){renderQuestion(currentQ+1);}
-    else{showReflection();}
-  }
+function pick(v) {
+  ans[Qs[cur].id] = v;
+  document.getElementById('errNote').style.display = 'none';
+}
 
-  function goBack(){if(currentQ>0)renderQuestion(currentQ-1);}
+function goNext() {
+  if (!ans[Qs[cur].id]) { document.getElementById('errNote').style.display = 'block'; return; }
+  if (cur < Qs.length - 1) { renderQ(cur + 1); } else { showReflection(); }
+}
 
-  function goToQuestion(idx){
-    document.getElementById('screen-reflection').classList.remove('active');
-    document.getElementById('screen-questions').classList.add('active');
-    renderQuestion(idx);
-  }
+function goBack() { if (cur > 0) renderQ(cur - 1); }
 
-  function showReflection(){
-    document.getElementById('screen-questions').classList.remove('active');
-    document.getElementById('screen-reflection').classList.add('active');
-    updateProgress(10);
-  }
+function goToQ(i) { show('s-questions'); renderQ(i); }
 
-  function updateProgress(idx){
-    const pct=Math.round((idx/questions.length)*100);
-    document.getElementById('progressFill').style.width=pct+'%';
-    document.getElementById('progressCount').textContent=pct+'%';
-    document.getElementById('progressLabel').textContent=idx<questions.length?'Question '+(idx+1)+' of '+questions.length:'Almost done!';
-  }
+function showReflection() {
+  show('s-reflection');
+  document.getElementById('progPct').textContent = '100%';
+  document.getElementById('progFill').style.width = '100%';
+  document.getElementById('progLabel').textContent = 'Almost done';
+}
 
-  function showResult(){
-    const total=Object.values(answers).reduce((s,n)=>s+n,0);
-    const pScore=productIds.reduce((s,id)=>s+(answers[id]||0),0);
-    const sScore=serviceIds.reduce((s,id)=>s+(answers[id]||0),0);
-    const diff=pScore-sScore;
-    const type=diff>=2?'products':diff<=-2?'services':'mixed';
-    const band=total>=40?'Strong readiness':total>=25?'Moderate readiness':'Not yet ready';
-    const data={
-      products:{icon:'&#x1F4E6;',iconClass:'green',tagClass:'tag-green',tag:'Products Lean',heading:band+' — You lean toward a product business',body:'Your answers suggest you are more aligned with a model that scales through products, systems, and repeatable sales rather than trading time for money.',detail:'Focus next on validating demand, understanding your margins, fulfilment logistics, and startup capital requirements.'},
-      services:{icon:'&#x1F91D;',iconClass:'blue',tagClass:'tag-blue',tag:'Services Lean',heading:band+' — You lean toward a service business',body:'Your answers show you are wired for client relationships, expertise-based value, and solving custom problems for people — the hallmarks of a strong service business.',detail:'Focus next on packaging your offer clearly, pricing with confidence, and landing your first paying clients.'},
-      mixed:{icon:'&#x26A1;',iconClass:'amber',tagClass:'tag-amber',tag:'Hybrid / Productized Service',heading:band+' — You fit a productized service model',body:'Your balanced scores suggest a hybrid approach could work best — such as a service offered in fixed packages, retainers, or paired with digital products.',detail:'Focus next on choosing a narrow niche, making your offer easy to buy repeatedly, and gradually systemising delivery.'}
-    };
-    const d=data[type];
-    document.getElementById('resultIcon').innerHTML=d.icon;
-    document.getElementById('resultIcon').className='result-icon '+d.iconClass;
-    const tag=document.getElementById('resultTag');
-    tag.textContent=d.tag; tag.className='result-tag '+d.tagClass;
-    document.getElementById('resultHeading').textContent=d.heading;
-    document.getElementById('resultBody').textContent=d.body;
-    document.getElementById('scoreTotal').textContent=total+'/50';
-    document.getElementById('scoreProduct').textContent=pScore+'/15';
-    document.getElementById('scoreService').textContent=sScore+'/15';
-    document.getElementById('detailText').textContent=d.detail;
-    document.getElementById('screen-reflection').classList.remove('active');
-    document.getElementById('screen-result').classList.add('active');
-    document.getElementById('progressFill').style.width='100%';
-    document.getElementById('progressCount').textContent='100%';
-    document.getElementById('progressLabel').textContent='Complete';
-  }
+function calcResult() {
+  const total = Object.values(ans).reduce((s,n) => s+n, 0);
+  const ps = PROD_IDS.reduce((s,id) => s+(ans[id]||0), 0);
+  const ss = SERV_IDS.reduce((s,id) => s+(ans[id]||0), 0);
+  const diff = ps - ss;
+  const type = diff >= 2 ? 'prod' : diff <= -2 ? 'serv' : 'mix';
+  const band = total >= 40 ? 'Strong Readiness' : total >= 25 ? 'Moderate Readiness' : 'Not Yet Ready';
 
-  function resetQuiz(){
-    Object.keys(answers).forEach(k=>delete answers[k]);
-    document.getElementById('reflection').value='';
-    document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-    document.getElementById('screen-intro').classList.add('active');
-    document.getElementById('progressWrap').style.display='none';
-    document.getElementById('progressFill').style.width='0%';
-  }
+  const D = {
+    prod: { badge:'Products', bc:'badge-green', title: band + '. You lean toward a product business.', body:'Your answers point to a model built on repeatable sales, systems, and scalable fulfilment rather than trading time for money.', next:'Validate demand early. Understand your unit economics, fulfilment logistics, and required startup capital before committing.' },
+    serv: { badge:'Services', bc:'badge-blue', title: band + '. You lean toward a service business.', body:'Your answers reflect a strength in client relationships, expertise-led value, and solving custom problems for individuals or businesses.', next:'Package your offer clearly. Price it with confidence. Focus on landing your first three paying clients before building anything else.' },
+    mix:  { badge:'Hybrid', bc:'badge-amber', title: band + '. A productized service may suit you best.', body:'Your balanced scores suggest a hybrid approach — a service sold in fixed packages, retainers, or paired with a digital product.', next:'Choose a narrow niche first. Make your offer easy to buy repeatedly, then systematise delivery over time.' }
+  };
+
+  const d = D[type];
+  document.getElementById('resBadge').textContent = d.badge;
+  document.getElementById('resBadge').className = 'result-badge ' + d.bc;
+  document.getElementById('resTitle').textContent = d.title;
+  document.getElementById('resBody').textContent = d.body;
+  document.getElementById('scTotal').textContent = total + '/50';
+  document.getElementById('scProd').textContent = ps + '/15';
+  document.getElementById('scServ').textContent = ss + '/15';
+  document.getElementById('nextStep').textContent = d.next;
+  show('s-result');
+  document.getElementById('progFill').style.width = '100%';
+  document.getElementById('progPct').textContent = '100%';
+  document.getElementById('progLabel').textContent = 'Complete';
+}
+
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function resetAll() {
+  Object.keys(ans).forEach(k => delete ans[k]);
+  document.getElementById('reflection').value = '';
+  show('s-intro');
+}
 </script>
 </body>
-</html>
+</html>"""
+
+with open('/tmp/index.html', 'w', encoding='utf-8') as f:
+    f.write(html)
+
+with open('/tmp/index.html', 'r') as f:
+    c = f.read()
+
+issues = []
+if '\\\\' in c: issues.append('double-escaped backslash found')
+if 'html_content' in c: issues.append('Python variable leak found')
+if not c.startswith('<!DOCTYPE html>'): issues.append('missing DOCTYPE')
+if '</html>' not in c: issues.append('missing closing tag')
+
+print("Issues:", issues if issues else "None — file is clean")
+print("Total chars:", len(c))
