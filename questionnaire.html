@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product vs Service Business Readiness Questionnaire</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #111827;
+      --muted: #94a3b8;
+      --text: #e5e7eb;
+      --accent: #22c55e;
+      --accent-2: #38bdf8;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --border: #1f2937;
+      --surface: #0b1220;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: linear-gradient(180deg, #020617 0%, #0f172a 100%);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 64px;
+    }
+
+    .card {
+      background: rgba(17, 24, 39, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.28);
+      backdrop-filter: blur(8px);
+    }
+
+    h1, h2, h3 {
+      line-height: 1.2;
+      margin-top: 0;
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      margin-bottom: 12px;
+    }
+
+    .lead, .small, .help, .muted {
+      color: var(--muted);
+    }
+
+    .guide {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin: 20px 0 8px;
+    }
+
+    .guide-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .question {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(11, 18, 32, 0.9);
+    }
+
+    .question h3 {
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    label.option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px;
+      background: #0b1220;
+      border: 1px solid #243041;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s ease;
+      min-height: 56px;
+    }
+
+    label.option:hover {
+      border-color: var(--accent-2);
+      transform: translateY(-1px);
+    }
+
+    input[type="radio"] {
+      accent-color: var(--accent);
+      transform: scale(1.15);
+      flex: 0 0 auto;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      border-radius: 14px;
+      border: 1px solid #243041;
+      background: #0b1220;
+      color: var(--text);
+      padding: 14px;
+      resize: vertical;
+      font: inherit;
+      margin-top: 10px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .primary {
+      background: linear-gradient(90deg, var(--accent), #16a34a);
+      color: #052e16;
+    }
+
+    .secondary {
+      background: #1e293b;
+      color: var(--text);
+      border: 1px solid #334155;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .result {
+      margin-top: 24px;
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(3,7,18,0.95), rgba(15,23,42,0.95));
+      display: none;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .badge.products { background: rgba(34, 197, 94, 0.18); color: #86efac; }
+    .badge.services { background: rgba(56, 189, 248, 0.18); color: #7dd3fc; }
+    .badge.mixed { background: rgba(245, 158, 11, 0.18); color: #fcd34d; }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .score-box {
+      background: #0b1220;
+      border: 1px solid #243041;
+      border-radius: 14px;
+      padding: 14px;
+    }
+
+    .score-box strong {
+      display: block;
+      font-size: 1.4rem;
+      margin-top: 6px;
+    }
+
+    .error {
+      color: #fecaca;
+      background: rgba(127, 29, 29, 0.3);
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-top: 16px;
+      display: none;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #111;
+      }
+      .wrap {
+        max-width: 100%;
+        padding: 0;
+      }
+      .card, .question, .result, .guide-box, .score-box {
+        background: #fff;
+        color: #111;
+        box-shadow: none;
+        border-color: #ccc;
+      }
+      .lead, .small, .help, .muted, .footer-note {
+        color: #333;
+      }
+      .actions, .error {
+        display: none !important;
+      }
+      label.option {
+        border-color: #ccc;
+        background: #fff;
+        color: #111;
+      }
+      textarea {
+        color: #111;
+        background: #fff;
+        border-color: #ccc;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Product vs Service Business Readiness Questionnaire</h1>
+      <p class="lead">
+        Rate each statement from 1 (Strongly Disagree) to 5 (Strongly Agree).
+        Your results are calculated instantly in your browser.
+      </p>
+
+      <div class="guide">
+        <div class="guide-box">
+          <strong>Scoring Guide</strong>
+          <div class="small">40–50: Strong readiness</div>
+          <div class="small">25–39: Moderate readiness</div>
+          <div class="small">10–24: Not yet ready</div>
+        </div>
+        <div class="guide-box">
+          <strong>Pattern Insight</strong>
+          <div class="small">Higher Q3, Q4, Q6 → Products</div>
+          <div class="small">Higher Q2, Q7, Q9 → Services</div>
+          <div class="small">Mixed signals → Productized Service</div>
+        </div>
+        <div class="guide-box">
+          <strong>Privacy</strong>
+          <div class="small">No server.</div>
+          <div class="small">No database.</div>
+          <div class="small">No data leaves the device.</div>
+        </div>
+      </div>
+
+      <form id="quizForm"></form>
+
+      <div class="question">
+        <h3>Bonus Reflection</h3>
+        <p class="help">
+          What is the one biggest obstacle you foresee in starting your business, and how do you plan to overcome it?
+        </p>
+        <textarea id="reflection" placeholder="Optional — but answering this honestly is one of the most valuable things you can do before launching."></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="primary" type="button" id="calculateBtn">Calculate Result</button>
+        <button class="secondary" type="button" id="resetBtn">Reset</button>
+        <button class="secondary" type="button" id="printBtn">Print / Save PDF</button>
+      </div>
+
+      <div class="error" id="errorBox"></div>
+
+      <div class="result" id="resultBox">
+        <div id="resultBadge" class="badge mixed">Result</div>
+        <h2 id="resultHeading">Your readiness result</h2>
+        <p id="resultText"></p>
+
+        <div class="score-grid">
+          <div class="score-box">
+            Total Score
+            <strong id="totalScore">0</strong>
+          </div>
+          <div class="score-box">
+            Products Signal
+            <strong id="productScore">0</strong>
+          </div>
+          <div class="score-box">
+            Services Signal
+            <strong id="serviceScore">0</strong>
+          </div>
+        </div>
+
+        <p class="footer-note" id="detailText"></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const scaleLabels = {
+      1: '1 – Strongly Disagree',
+      2: '2 – Disagree',
+      3: '3 – Neutral',
+      4: '4 – Agree',
+      5: '5 – Strongly Agree'
+    };
+
+    const questions = [
+      {
+        id: 'q1',
+        title: 'Q1. I enjoy creating, sourcing, or curating physical or digital items more than I enjoy working directly with people.',
+        help: 'High score → Products lean'
+      },
+      {
+        id: 'q2',
+        title: 'Q2. I have a specific skill, expertise, or talent that others have paid for or asked me to perform on their behalf.',
+        help: 'High score → Strong services signal'
+      },
+      {
+        id: 'q3',
+        title: 'Q3. I am comfortable managing inventory, logistics, packaging, or fulfilment processes.',
+        help: 'High score → Products lean'
+      },
+      {
+        id: 'q4',
+        title: 'Q4. I prefer income that can scale without requiring more of my time as demand grows.',
+        help: 'High score → Products lean'
+      },
+      {
+        id: 'q5',
+        title: 'Q5. I can clearly describe my ideal customer and explain why they would choose me over an existing alternative.',
+        help: 'High score → Readiness indicator for either path'
+      },
+      {
+        id: 'q6',
+        title: 'Q6. I have enough capital or access to funding to absorb upfront costs before turning a profit.',
+        help: 'Low score = caution flag, especially for product businesses'
+      },
+      {
+        id: 'q7',
+        title: 'Q7. I am energised by solving individual client problems and building personal relationships.',
+        help: 'High score → Services lean'
+      },
+      {
+        id: 'q8',
+        title: 'Q8. I am willing to handle customer complaints, returns, or disputes with patience and professionalism.',
+        help: 'Low score = reconsider entrepreneurship altogether'
+      },
+      {
+        id: 'q9',
+        title: 'Q9. I have tested my idea — even informally — by asking potential customers if they would pay for it.',
+        help: 'High score → Strong readiness indicator regardless of path'
+      },
+      {
+        id: 'q10',
+        title: 'Q10. My financial situation allows me to go 3–6 months without consistent revenue while I build.',
+        help: 'Low score = consider starting as a side income first'
+      }
+    ];
+
+    const productLeanIds = ['q3', 'q4', 'q6'];
+    const serviceLeanIds = ['q2', 'q7', 'q9'];
+
+    const quizForm = document.getElementById('quizForm');
+    const resultBox = document.getElementById('resultBox');
+    const resultBadge = document.getElementById('resultBadge');
+    const resultHeading = document.getElementById('resultHeading');
+    const resultText = document.getElementById('resultText');
+    const totalScoreEl = document.getElementById('totalScore');
+    const productScoreEl = document.getElementById('productScore');
+    const serviceScoreEl = document.getElementById('serviceScore');
+    const detailText = document.getElementById('detailText');
+    const errorBox = document.getElementById('errorBox');
+
+    function renderQuestions() {
+      quizForm.innerHTML = questions.map(q => `
+        <div class="question">
+          <h3>${q.title}</h3>
+          <p class="help">${q.help}</p>
+          <div class="options">
+            ${[1,2,3,4,5].map(val => `
+              <label class="option">
+                <input type="radio" name="${q.id}" value="${val}">
+                <span>${scaleLabels[val]}</span>
+              </label>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function getAnswers() {
+      const answers = {};
+      for (const q of questions) {
+        const selected = document.querySelector(`input[name="${q.id}"]:checked`);
+        if (!selected) return null;
+        answers[q.id] = Number(selected.value);
+      }
+      return answers;
+    }
+
+    function readinessBand(total) {
+      if (total >= 40) return 'Strong readiness';
+      if (total >= 25) return 'Moderate readiness';
+      return 'Not yet ready';
+    }
+
+    function classify(answers) {
+      const total = Object.values(answers).reduce((sum, n) => sum + n, 0);
+      const productScore = productLeanIds.reduce((sum, id) => sum + answers[id], 0);
+      const serviceScore = serviceLeanIds.reduce((sum, id) => sum + answers[id], 0);
+      const diff = productScore - serviceScore;
+
+      let type = 'mixed';
+      if (diff >= 2) type = 'products';
+      else if (diff <= -2) type = 'services';
+
+      return { total, productScore, serviceScore, type };
+    }
+
+    function getMessage(type, total, productScore, serviceScore) {
+      const band = readinessBand(total);
+
+      if (type === 'products') {
+        return {
+          badge: 'Products Lean',
+          heading: `${band} — You lean toward a product business`,
+          text: 'Your answers suggest you are more aligned with a business model that can scale through products, systems, fulfilment, and repeatable sales.',
+          detail: `Product signal: ${productScore}/15. Service signal: ${serviceScore}/15. Focus next on validating demand, margins, fulfilment, and startup capital.`
+        };
+      }
+
+      if (type === 'services') {
+        return {
+          badge: 'Services Lean',
+          heading: `${band} — You lean toward a service business`,
+          text: 'Your answers suggest you are more aligned with client work, expertise-based value, relationship building, and solving custom problems for people.',
+          detail: `Service signal: ${serviceScore}/15. Product signal: ${productScore}/15. Focus next on packaging your offer, pricing clearly, and getting early paying clients.`
+        };
+      }
+
+      return {
+        badge: 'Mixed / Productized Service',
+        heading: `${band} — You may fit a productized service model`,
+        text: 'Your answers show a balanced pattern. That usually means a hybrid model could suit you best, such as a service with fixed packages, templates, retainers, or digital add-ons.',
+        detail: `Products signal: ${productScore}/15. Services signal: ${serviceScore}/15. Focus next on choosing a narrow niche and making the offer easier to sell repeatedly.`
+      };
+    }
+
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.style.display = 'block';
+      resultBox.style.display = 'none';
+    }
+
+    function clearError() {
+      errorBox.style.display = 'none';
+      errorBox.textContent = '';
+    }
+
+    function calculate() {
+      clearError();
+      const answers = getAnswers();
+
+      if (!answers) {
+        showError('Please answer all 10 scored questions before calculating your result.');
+        return;
+      }
+
+      const { total, productScore, serviceScore, type } = classify(answers);
+      const message = getMessage(type, total, productScore, serviceScore);
+
+      resultBadge.className = `badge ${type}`;
+      resultBadge.textContent = message.badge;
+      resultHeading.textContent = message.heading;
+      resultText.textContent = message.text;
+      totalScoreEl.textContent = `${total} / 50`;
+      productScoreEl.textContent = `${productScore} / 15`;
+      serviceScoreEl.textContent = `${serviceScore} / 15`;
+      detailText.textContent = message.detail;
+
+      resultBox.style.display = 'block';
+      resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetForm() {
+      document.querySelectorAll('input[type="radio"]').forEach(input => input.checked = false);
+      document.getElementById('reflection').value = '';
+      clearError();
+      resultBox.style.display = 'none';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    document.getElementById('calculateBtn').addEventListener('click', calculate);
+    document.getElementById('resetBtn').addEventListener('click', resetForm);
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+
+    renderQuestions();
+  </script>
+</body>
+</html>
