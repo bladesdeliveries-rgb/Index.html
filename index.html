@@ -1,4 +1,4 @@
-html = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -645,19 +645,4 @@ function resetAll() {
 }
 </script>
 </body>
-</html>"""
-
-with open('/tmp/index.html', 'w', encoding='utf-8') as f:
-    f.write(html)
-
-with open('/tmp/index.html', 'r') as f:
-    c = f.read()
-
-issues = []
-if '\\\\' in c: issues.append('double-escaped backslash found')
-if 'html_content' in c: issues.append('Python variable leak found')
-if not c.startswith('<!DOCTYPE html>'): issues.append('missing DOCTYPE')
-if '</html>' not in c: issues.append('missing closing tag')
-
-print("Issues:", issues if issues else "None — file is clean")
-print("Total chars:", len(c))
+</html>
