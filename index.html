@@ -1,4 +1,4 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -324,17 +324,4 @@ html_content = """<!DOCTYPE html>
   }
 </script>
 </body>
-</html>"""
-
-with open('/tmp/index.html', 'w', encoding='utf-8') as f:
-    f.write(html_content)
-
-# Verify it starts and ends correctly
-with open('/tmp/index.html', 'r') as f:
-    content = f.read()
-
-print("First 50 chars:", repr(content[:50]))
-print("Last 50 chars:", repr(content[-50:]))
-print("Total chars:", len(content))
-print("Contains DOCTYPE:", '<!DOCTYPE html>' in content)
-print("Contains closing html:", '</html>' in content)
+</html>
