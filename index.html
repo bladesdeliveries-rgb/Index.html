@@ -111,10 +111,7 @@ body {
   letter-spacing: -0.01em;
 }
 
-.btn-cta:hover {
-  background: #0077ed;
-  transform: scale(1.02);
-}
+.btn-cta:hover { background: #0077ed; transform: scale(1.02); }
 
 .progress-bar-wrap {
   width: 100%;
@@ -143,10 +140,7 @@ body {
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.question-wrap {
-  width: 100%;
-  max-width: 540px;
-}
+.question-wrap { width: 100%; max-width: 540px; }
 
 .q-label {
   font-size: 0.7rem;
@@ -163,12 +157,6 @@ body {
   letter-spacing: -0.02em;
   line-height: 1.45;
   color: #f5f5f7;
-  margin-bottom: 10px;
-}
-
-.q-context {
-  font-size: 0.82rem;
-  color: #48484a;
   margin-bottom: 32px;
 }
 
@@ -193,15 +181,8 @@ body {
   transition: all 0.18s ease;
 }
 
-.opt label:hover {
-  border-color: #2997ff;
-  background: rgba(41, 151, 255, 0.04);
-}
-
-.opt input:checked + label {
-  border-color: #2997ff;
-  background: rgba(41, 151, 255, 0.08);
-}
+.opt label:hover { border-color: #2997ff; background: rgba(41, 151, 255, 0.04); }
+.opt input:checked + label { border-color: #2997ff; background: rgba(41, 151, 255, 0.08); }
 
 .opt-ring {
   width: 18px;
@@ -215,44 +196,16 @@ body {
   transition: all 0.18s;
 }
 
-.opt input:checked + label .opt-ring {
-  border-color: #2997ff;
-  background: #2997ff;
-}
+.opt input:checked + label .opt-ring { border-color: #2997ff; background: #2997ff; }
+.opt input:checked + label .opt-ring::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; }
 
-.opt input:checked + label .opt-ring::after {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #fff;
-}
-
-.opt-n {
-  font-size: 0.72rem;
-  font-weight: 600;
-  color: #48484a;
-  width: 12px;
-  text-align: center;
-  flex-shrink: 0;
-}
-
+.opt-n { font-size: 0.72rem; font-weight: 600; color: #48484a; width: 12px; text-align: center; flex-shrink: 0; }
 .opt input:checked + label .opt-n { color: #2997ff; }
 
-.opt-label {
-  font-size: 0.88rem;
-  color: #aeaeb2;
-  flex: 1;
-}
-
+.opt-label { font-size: 0.88rem; color: #aeaeb2; flex: 1; }
 .opt input:checked + label .opt-label { color: #f5f5f7; }
 
-.nav-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
+.nav-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 
 .btn-back {
   display: inline-flex;
@@ -290,22 +243,9 @@ body {
 
 .btn-next:hover { background: #0077ed; }
 
-.error-note {
-  display: none;
-  font-size: 0.8rem;
-  color: #ff453a;
-  margin-bottom: 16px;
-}
+.error-note { display: none; font-size: 0.8rem; color: #ff453a; margin-bottom: 16px; }
 
-.reflection-wrap {
-  width: 100%;
-  max-width: 540px;
-}
-
-.ref-icon {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
+.reflection-wrap { width: 100%; max-width: 540px; }
 
 .ref-title {
   font-size: 1.5rem;
@@ -315,13 +255,7 @@ body {
   margin-bottom: 10px;
 }
 
-.ref-sub {
-  font-size: 0.9rem;
-  color: #6e6e73;
-  line-height: 1.65;
-  margin-bottom: 24px;
-  max-width: 420px;
-}
+.ref-sub { font-size: 0.9rem; color: #6e6e73; line-height: 1.65; margin-bottom: 24px; max-width: 420px; }
 
 textarea {
   width: 100%;
@@ -342,11 +276,7 @@ textarea {
 textarea:focus { border-color: #2997ff; }
 textarea::placeholder { color: #3a3a3c; }
 
-.result-wrap {
-  width: 100%;
-  max-width: 540px;
-  text-align: center;
-}
+.result-wrap { width: 100%; max-width: 540px; text-align: center; }
 
 .result-badge {
   display: inline-block;
@@ -372,73 +302,19 @@ textarea::placeholder { color: #3a3a3c; }
   line-height: 1.2;
 }
 
-.result-body {
-  font-size: 0.92rem;
-  color: #6e6e73;
-  line-height: 1.7;
-  margin-bottom: 36px;
-  max-width: 420px;
-  margin-left: auto;
-  margin-right: auto;
-}
+.result-body { font-size: 0.92rem; color: #6e6e73; line-height: 1.7; margin-bottom: 36px; max-width: 420px; margin-left: auto; margin-right: auto; }
 
-.score-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 28px;
-}
+.score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 28px; }
 
-.score-tile {
-  background: #111;
-  border: 1px solid #1d1d1f;
-  border-radius: 14px;
-  padding: 18px 12px;
-  text-align: center;
-}
+.score-tile { background: #111; border: 1px solid #1d1d1f; border-radius: 14px; padding: 18px 12px; text-align: center; }
+.score-tile .s-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #48484a; margin-bottom: 8px; }
+.score-tile .s-value { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; color: #f5f5f7; }
+.score-tile .s-sub { font-size: 0.68rem; color: #48484a; margin-top: 4px; }
 
-.score-tile .s-label {
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: #48484a;
-  margin-bottom: 8px;
-}
+.rule { height: 1px; background: #1d1d1f; margin: 24px 0; }
+.next-step { font-size: 0.85rem; color: #48484a; line-height: 1.65; text-align: left; }
 
-.score-tile .s-value {
-  font-size: 1.4rem;
-  font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #f5f5f7;
-}
-
-.score-tile .s-sub {
-  font-size: 0.68rem;
-  color: #48484a;
-  margin-top: 4px;
-}
-
-.rule {
-  height: 1px;
-  background: #1d1d1f;
-  margin: 24px 0;
-}
-
-.next-step {
-  font-size: 0.85rem;
-  color: #48484a;
-  line-height: 1.65;
-  text-align: left;
-}
-
-.result-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 28px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
+.result-actions { display: flex; gap: 10px; margin-top: 28px; justify-content: center; flex-wrap: wrap; }
 
 .btn-outline {
   display: inline-flex;
@@ -494,7 +370,6 @@ textarea::placeholder { color: #3a3a3c; }
     <div class="question-wrap">
       <div class="q-label" id="qLabel">Question 1 of 10</div>
       <div class="q-body" id="qBody"></div>
-      <div class="q-context" id="qCtx"></div>
       <div class="options-list" id="optsList"></div>
       <div class="error-note" id="errNote">Please select an answer to continue.</div>
       <div class="nav-row">
@@ -506,7 +381,6 @@ textarea::placeholder { color: #3a3a3c; }
 
   <div class="screen" id="s-reflection">
     <div class="reflection-wrap">
-      <div class="ref-icon">&#x1F4AC;</div>
       <div class="ref-title">One final question.</div>
       <div class="ref-sub">What is the single biggest obstacle you foresee in starting your business, and how do you plan to overcome it?</div>
       <textarea id="reflection" placeholder="Optional, but the most valuable thing you can write before you launch."></textarea>
@@ -540,16 +414,16 @@ textarea::placeholder { color: #3a3a3c; }
 
 <script>
 const Qs = [
-  {id:'q1', text:'I enjoy creating, sourcing, or curating physical or digital items more than working directly with people.', ctx:'High score leans toward Products'},
-  {id:'q2', text:'I have a specific skill or expertise that others have paid for or asked me to perform on their behalf.', ctx:'High score is a strong Services indicator'},
-  {id:'q3', text:'I am comfortable managing inventory, logistics, packaging, or fulfilment processes.', ctx:'High score leans toward Products'},
-  {id:'q4', text:'I prefer income that scales without requiring more of my time as demand grows.', ctx:'High score leans toward Products'},
-  {id:'q5', text:'I can clearly describe my ideal customer and explain why they would choose me over any existing alternative.', ctx:'Readiness indicator for either path'},
-  {id:'q6', text:'I have enough capital or access to funding to absorb upfront costs before turning a profit.', ctx:'Low score is a caution flag, particularly for product businesses'},
-  {id:'q7', text:'I am energised by solving individual client problems and building long-term personal relationships.', ctx:'High score leans toward Services'},
-  {id:'q8', text:'I am willing to handle complaints, returns, or disputes calmly and professionally.', ctx:'Low score warrants serious reflection before launching'},
-  {id:'q9', text:'I have tested my idea by asking real potential customers whether they would actually pay for it.', ctx:'Strong readiness indicator regardless of path'},
-  {id:'q10', text:'My financial position allows me to go three to six months without consistent revenue while I build.', ctx:'Low score means consider starting as a side income first'}
+  {id:'q1', text:'I enjoy creating, sourcing, or curating physical or digital items more than working directly with people.'},
+  {id:'q2', text:'I have a specific skill or expertise that others have paid for or asked me to perform on their behalf.'},
+  {id:'q3', text:'I am comfortable managing inventory, logistics, packaging, or fulfilment processes.'},
+  {id:'q4', text:'I prefer income that scales without requiring more of my time as demand grows.'},
+  {id:'q5', text:'I can clearly describe my ideal customer and explain why they would choose me over any existing alternative.'},
+  {id:'q6', text:'I have enough capital or access to funding to absorb upfront costs before turning a profit.'},
+  {id:'q7', text:'I am energised by solving individual client problems and building long-term personal relationships.'},
+  {id:'q8', text:'I am willing to handle complaints, returns, or disputes calmly and professionally.'},
+  {id:'q9', text:'I have tested my idea by asking real potential customers whether they would actually pay for it.'},
+  {id:'q10', text:'My financial position allows me to go three to six months without consistent revenue while I build.'}
 ];
 
 const OPTS = ['Strongly Disagree','Disagree','Neutral','Agree','Strongly Agree'];
@@ -572,7 +446,6 @@ function renderQ(i) {
   document.getElementById('progFill').style.width = pct + '%';
   document.getElementById('qLabel').textContent = 'Question ' + (i+1) + ' of ' + Qs.length;
   document.getElementById('qBody').textContent = q.text;
-  document.getElementById('qCtx').textContent = q.ctx;
   document.getElementById('btnBack').disabled = i === 0;
   document.getElementById('btnNext').textContent = i === Qs.length - 1 ? 'Continue \u2192' : 'Next \u2192';
   document.getElementById('errNote').style.display = 'none';
@@ -615,7 +488,7 @@ function calcResult() {
   const D = {
     prod: { badge:'Products', bc:'badge-green', title: band + '. You lean toward a product business.', body:'Your answers point to a model built on repeatable sales, systems, and scalable fulfilment rather than trading time for money.', next:'Validate demand early. Understand your unit economics, fulfilment logistics, and required startup capital before committing.' },
     serv: { badge:'Services', bc:'badge-blue', title: band + '. You lean toward a service business.', body:'Your answers reflect a strength in client relationships, expertise-led value, and solving custom problems for individuals or businesses.', next:'Package your offer clearly. Price it with confidence. Focus on landing your first three paying clients before building anything else.' },
-    mix:  { badge:'Hybrid', bc:'badge-amber', title: band + '. A productized service may suit you best.', body:'Your balanced scores suggest a hybrid approach — a service sold in fixed packages, retainers, or paired with a digital product.', next:'Choose a narrow niche first. Make your offer easy to buy repeatedly, then systematise delivery over time.' }
+    mix:  { badge:'Hybrid', bc:'badge-amber', title: band + '. A productized service may suit you best.', body:'Your balanced scores suggest a hybrid approach works best for you — a service sold in fixed packages, retainers, or paired with a digital product.', next:'Choose a narrow niche first. Make your offer easy to buy repeatedly, then systematise delivery over time.' }
   };
 
   const d = D[type];
