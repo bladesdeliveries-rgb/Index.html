@@ -5,413 +5,574 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Business Readiness</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&display=swap');
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
+:root {
+  --ink: #0a0a0a;
+  --ink-2: #3a3a3a;
+  --ink-3: #888;
+  --ink-4: #bbb;
+  --line: #e8e8e8;
+  --bg: #f8f8f6;
+  --white: #ffffff;
+  --blue: #1a56db;
+  --green: #16a34a;
+  --amber: #b45309;
+}
+
+html { scroll-behavior: smooth; }
+
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
-  background: #000;
-  color: #f5f5f7;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
 }
 
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 24px;
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 80px 32px 120px;
 }
 
-.eyebrow {
-  font-size: 0.7rem;
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* INTRO */
+.intro-tag {
+  display: inline-block;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: #6e6e73;
-  margin-bottom: 14px;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+  margin-bottom: 40px;
 }
 
-.headline {
-  font-size: clamp(2rem, 5vw, 3.2rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
-  color: #f5f5f7;
-  text-align: center;
-  max-width: 560px;
+.intro-headline {
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--ink);
+  margin-bottom: 40px;
 }
 
-.headline em {
-  font-style: normal;
-  background: linear-gradient(90deg, #2997ff, #30d158);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.intro-headline span {
+  display: block;
+  font-weight: 300;
+  font-style: italic;
+  color: var(--ink-3);
 }
 
-.subtext {
-  margin-top: 16px;
-  font-size: 0.95rem;
+.intro-rule { height: 1px; background: var(--line); margin-bottom: 40px; }
+
+.intro-body {
+  font-size: 1rem;
   font-weight: 400;
-  color: #6e6e73;
-  text-align: center;
-  line-height: 1.6;
-  max-width: 400px;
-}
-
-.checklist {
-  list-style: none;
-  margin: 36px 0 44px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 340px;
-}
-
-.checklist li {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 0.9rem;
-  color: #aeaeb2;
-}
-
-.check-circle {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: rgba(48, 209, 88, 0.12);
-  border: 1px solid rgba(48, 209, 88, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  font-size: 0.65rem;
-  color: #30d158;
-}
-
-.btn-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 14px 32px;
-  background: #2997ff;
-  color: #fff;
-  border: none;
-  border-radius: 980px;
-  font: inherit;
-  font-size: 0.95rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  letter-spacing: -0.01em;
-}
-
-.btn-cta:hover { background: #0077ed; transform: scale(1.02); }
-
-.progress-bar-wrap {
-  width: 100%;
-  max-width: 540px;
+  line-height: 1.7;
+  color: var(--ink-2);
+  max-width: 480px;
   margin-bottom: 48px;
 }
 
-.progress-meta {
+.intro-meta {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  font-size: 0.78rem;
-  color: #6e6e73;
+  gap: 32px;
+  margin-bottom: 56px;
+  flex-wrap: wrap;
 }
 
-.progress-track {
-  height: 2px;
-  background: #1d1d1f;
-  border-radius: 999px;
-}
-
-.progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #2997ff, #30d158);
-  border-radius: 999px;
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.question-wrap { width: 100%; max-width: 540px; }
-
-.q-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #6e6e73;
-  margin-bottom: 16px;
-}
-
-.q-body {
-  font-size: 1.25rem;
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.45;
-  color: #f5f5f7;
-  margin-bottom: 32px;
-}
-
-.options-list {
+.meta-item {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-bottom: 36px;
+  gap: 4px;
 }
+
+.meta-n {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.meta-l {
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+}
+
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 32px;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.btn-start:hover { opacity: 0.82; }
+
+/* PROGRESS */
+.prog-wrap { margin-bottom: 64px; }
+
+.prog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.prog-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.prog-pct {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-4);
+}
+
+.prog-track {
+  height: 1px;
+  background: var(--line);
+  position: relative;
+}
+
+.prog-fill {
+  position: absolute;
+  top: 0; left: 0;
+  height: 1px;
+  background: var(--ink);
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* QUESTION */
+.q-wrap { margin-bottom: 48px; }
+
+.q-num {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 20px;
+}
+
+.q-text {
+  font-size: clamp(1.2rem, 3vw, 1.6rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.35;
+  color: var(--ink);
+  margin-bottom: 40px;
+}
+
+.opts { display: flex; flex-direction: column; gap: 2px; }
 
 .opt input { display: none; }
 
 .opt label {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
-  background: #111;
-  border: 1px solid #1d1d1f;
-  border-radius: 14px;
+  gap: 20px;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition: color 0.15s;
 }
 
-.opt label:hover { border-color: #2997ff; background: rgba(41, 151, 255, 0.04); }
-.opt input:checked + label { border-color: #2997ff; background: rgba(41, 151, 255, 0.08); }
+.opt label:hover .opt-text { color: var(--ink); }
 
-.opt-ring {
-  width: 18px;
-  height: 18px;
+.opt-idx {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--ink-4);
+  width: 16px;
+  flex-shrink: 0;
+}
+
+.opt input:checked + label .opt-idx { color: var(--ink); }
+
+.opt-marker {
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
-  border: 1.5px solid #3a3a3c;
+  border: 1.5px solid var(--ink-4);
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.18s;
+  transition: all 0.15s;
 }
 
-.opt input:checked + label .opt-ring { border-color: #2997ff; background: #2997ff; }
-.opt input:checked + label .opt-ring::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #fff; }
+.opt input:checked + label .opt-marker {
+  border-color: var(--ink);
+  background: var(--ink);
+}
 
-.opt-n { font-size: 0.72rem; font-weight: 600; color: #48484a; width: 12px; text-align: center; flex-shrink: 0; }
-.opt input:checked + label .opt-n { color: #2997ff; }
+.opt input:checked + label .opt-marker::after {
+  content: '';
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff;
+}
 
-.opt-label { font-size: 0.88rem; color: #aeaeb2; flex: 1; }
-.opt input:checked + label .opt-label { color: #f5f5f7; }
+.opt-text {
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--ink-3);
+  flex: 1;
+  transition: color 0.15s;
+}
 
-.nav-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.opt input:checked + label .opt-text { color: var(--ink); font-weight: 500; }
+
+/* NAV */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+}
 
 .btn-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 20px;
-  background: transparent;
-  border: 1px solid #1d1d1f;
-  border-radius: 980px;
-  color: #6e6e73;
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--ink-3);
+  background: none;
+  border: none;
   cursor: pointer;
-  transition: all 0.18s;
+  padding: 0;
+  transition: color 0.15s;
 }
 
-.btn-back:hover { border-color: #3a3a3c; color: #aeaeb2; }
-.btn-back:disabled { opacity: 0.3; cursor: default; }
+.btn-back:hover { color: var(--ink); }
+.btn-back:disabled { opacity: 0.25; cursor: default; }
 
 .btn-next {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 24px;
-  background: #2997ff;
-  border: none;
-  border-radius: 980px;
+  gap: 10px;
+  padding: 13px 28px;
+  background: var(--ink);
   color: #fff;
+  border: none;
+  border-radius: 4px;
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   font-weight: 500;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: all 0.18s;
+  transition: opacity 0.15s;
 }
 
-.btn-next:hover { background: #0077ed; }
+.btn-next:hover { opacity: 0.82; }
 
-.error-note { display: none; font-size: 0.8rem; color: #ff453a; margin-bottom: 16px; }
+.err {
+  font-size: 0.78rem;
+  color: #c0392b;
+  display: none;
+  padding-top: 12px;
+  letter-spacing: 0.02em;
+}
 
-.reflection-wrap { width: 100%; max-width: 540px; }
+/* REFLECTION */
+.ref-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 6px;
+  display: inline-block;
+  margin-bottom: 40px;
+}
 
 .ref-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  letter-spacing: -0.025em;
-  color: #f5f5f7;
-  margin-bottom: 10px;
-}
-
-.ref-sub { font-size: 0.9rem; color: #6e6e73; line-height: 1.65; margin-bottom: 24px; max-width: 420px; }
-
-textarea {
-  width: 100%;
-  min-height: 120px;
-  background: #111;
-  border: 1px solid #1d1d1f;
-  border-radius: 14px;
-  color: #f5f5f7;
-  padding: 16px 18px;
-  font: inherit;
-  font-size: 0.9rem;
-  resize: vertical;
-  outline: none;
-  transition: border-color 0.18s;
-  margin-bottom: 28px;
-}
-
-textarea:focus { border-color: #2997ff; }
-textarea::placeholder { color: #3a3a3c; }
-
-.result-wrap { width: 100%; max-width: 540px; text-align: center; }
-
-.result-badge {
-  display: inline-block;
-  padding: 5px 14px;
-  border-radius: 980px;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--ink);
   margin-bottom: 20px;
 }
 
-.badge-green { background: rgba(48,209,88,0.1); color: #30d158; border: 1px solid rgba(48,209,88,0.2); }
-.badge-blue  { background: rgba(41,151,255,0.1); color: #2997ff; border: 1px solid rgba(41,151,255,0.2); }
-.badge-amber { background: rgba(255,159,10,0.1); color: #ff9f0a; border: 1px solid rgba(255,159,10,0.2); }
-
-.result-title {
-  font-size: clamp(1.5rem, 4vw, 2.2rem);
-  font-weight: 600;
-  letter-spacing: -0.03em;
-  color: #f5f5f7;
-  margin-bottom: 14px;
-  line-height: 1.2;
+.ref-body {
+  font-size: 0.95rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+  max-width: 440px;
+  margin-bottom: 32px;
 }
 
-.result-body { font-size: 0.92rem; color: #6e6e73; line-height: 1.7; margin-bottom: 36px; max-width: 420px; margin-left: auto; margin-right: auto; }
+textarea {
+  width: 100%;
+  min-height: 130px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink);
+  padding: 18px 20px;
+  font: inherit;
+  font-size: 0.92rem;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+  margin-bottom: 32px;
+}
 
-.score-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 28px; }
+textarea:focus { border-color: var(--ink-3); }
+textarea::placeholder { color: var(--ink-4); }
 
-.score-tile { background: #111; border: 1px solid #1d1d1f; border-radius: 14px; padding: 18px 12px; text-align: center; }
-.score-tile .s-label { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #48484a; margin-bottom: 8px; }
-.score-tile .s-value { font-size: 1.4rem; font-weight: 600; letter-spacing: -0.02em; color: #f5f5f7; }
-.score-tile .s-sub { font-size: 0.68rem; color: #48484a; margin-top: 4px; }
+/* RESULT */
+.res-tag {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  display: inline-block;
+  margin-bottom: 40px;
+  border-bottom: 1px solid;
+}
 
-.rule { height: 1px; background: #1d1d1f; margin: 24px 0; }
-.next-step { font-size: 0.85rem; color: #48484a; line-height: 1.65; text-align: left; }
+.res-tag-green { color: var(--green); border-color: rgba(22,163,74,0.3); }
+.res-tag-blue  { color: var(--blue);  border-color: rgba(26,86,219,0.3); }
+.res-tag-amber { color: var(--amber); border-color: rgba(180,83,9,0.3); }
 
-.result-actions { display: flex; gap: 10px; margin-top: 28px; justify-content: center; flex-wrap: wrap; }
+.res-title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
 
-.btn-outline {
+.res-rule { height: 1px; background: var(--line); margin-bottom: 24px; }
+
+.res-body {
+  font-size: 0.97rem;
+  color: var(--ink-2);
+  line-height: 1.75;
+  max-width: 520px;
+  margin-bottom: 48px;
+}
+
+.score-row {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 0;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+
+.score-cell {
+  padding: 24px 20px;
+  border-right: 1px solid var(--line);
+}
+
+.score-cell:last-child { border-right: none; }
+
+.sc-label {
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 10px;
+}
+
+.sc-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.sc-sub {
+  font-size: 0.68rem;
+  color: var(--ink-4);
+  margin-top: 5px;
+  letter-spacing: 0.04em;
+}
+
+.next-head {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-4);
+  margin-bottom: 12px;
+}
+
+.next-body {
+  font-size: 0.92rem;
+  color: var(--ink-2);
+  line-height: 1.7;
+  max-width: 480px;
+  margin-bottom: 48px;
+  padding-left: 16px;
+  border-left: 2px solid var(--line);
+}
+
+.res-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+.btn-secondary {
   display: inline-flex;
   align-items: center;
-  padding: 10px 22px;
+  padding: 13px 28px;
   background: transparent;
-  border: 1px solid #1d1d1f;
-  border-radius: 980px;
-  color: #6e6e73;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  color: var(--ink-2);
   font: inherit;
-  font-size: 0.88rem;
+  font-size: 0.82rem;
+  font-weight: 500;
   cursor: pointer;
-  transition: all 0.18s;
+  transition: border-color 0.15s, color 0.15s;
+  letter-spacing: 0.04em;
 }
 
-.btn-outline:hover { border-color: #3a3a3c; color: #aeaeb2; }
+.btn-secondary:hover { border-color: var(--ink-3); color: var(--ink); }
 
-.screen { display: none; }
-.screen.active { display: flex; flex-direction: column; align-items: center; }
-
-@media (max-width: 480px) {
-  .score-tile .s-value { font-size: 1.15rem; }
-  .score-grid { gap: 8px; }
+@media (max-width: 520px) {
+  .wrap { padding: 48px 20px 80px; }
+  .intro-headline { font-size: 2.8rem; }
+  .score-row { grid-template-columns: 1fr; }
+  .score-cell { border-right: none; border-bottom: 1px solid var(--line); }
+  .score-cell:last-child { border-bottom: none; }
 }
 </style>
 </head>
 <body>
-
-<div class="page">
+<div class="wrap">
 
   <div class="screen active" id="s-intro">
-    <div class="eyebrow">Self-Assessment</div>
-    <h1 class="headline">Product vs <em>Service</em><br>Business</h1>
-    <p class="subtext">10 honest questions. Instant clarity on which business model fits you right now.</p>
-    <ul class="checklist">
-      <li><span class="check-circle">&#10003;</span> 3 minutes to complete</li>
-      <li><span class="check-circle">&#10003;</span> Results calculated locally in your browser</li>
-      <li><span class="check-circle">&#10003;</span> No data ever leaves your device</li>
-    </ul>
-    <button class="btn-cta" onclick="startQuiz()">Begin &#8594;</button>
+    <div class="intro-tag">Self-Assessment</div>
+    <h1 class="intro-headline">
+      Business<br>
+      <span>Readiness</span>
+    </h1>
+    <div class="intro-rule"></div>
+    <p class="intro-body">Ten honest questions to clarify whether a product business, a service business, or a hybrid model fits your current situation. No right or wrong answers.</p>
+    <div class="intro-meta">
+      <div class="meta-item">
+        <div class="meta-n">10</div>
+        <div class="meta-l">Questions</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-n">3<span style="font-size:1rem;font-weight:400">min</span></div>
+        <div class="meta-l">To complete</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-n">0</div>
+        <div class="meta-l">Data collected</div>
+      </div>
+    </div>
+    <button class="btn-start" onclick="startQuiz()">Begin assessment &#8594;</button>
   </div>
 
   <div class="screen" id="s-questions">
-    <div class="progress-bar-wrap">
-      <div class="progress-meta">
-        <span id="progLabel">Question 1 of 10</span>
-        <span id="progPct">0%</span>
+    <div class="prog-wrap">
+      <div class="prog-header">
+        <span class="prog-label" id="progLabel">Question 1 of 10</span>
+        <span class="prog-pct" id="progPct">0%</span>
       </div>
-      <div class="progress-track">
-        <div class="progress-fill" id="progFill" style="width:0%"></div>
+      <div class="prog-track">
+        <div class="prog-fill" id="progFill" style="width:0%"></div>
       </div>
     </div>
-    <div class="question-wrap">
-      <div class="q-label" id="qLabel">Question 1 of 10</div>
-      <div class="q-body" id="qBody"></div>
-      <div class="options-list" id="optsList"></div>
-      <div class="error-note" id="errNote">Please select an answer to continue.</div>
-      <div class="nav-row">
-        <button class="btn-back" id="btnBack" onclick="goBack()" disabled>&#8592; Back</button>
-        <button class="btn-next" id="btnNext" onclick="goNext()">Next &#8594;</button>
-      </div>
+
+    <div class="q-wrap">
+      <div class="q-num" id="qNum">01 / 10</div>
+      <div class="q-text" id="qText"></div>
+      <div class="opts" id="optsList"></div>
+      <div class="err" id="errNote">Select an answer to continue.</div>
+    </div>
+
+    <div class="nav">
+      <button class="btn-back" id="btnBack" onclick="goBack()" disabled>&#8592; Back</button>
+      <button class="btn-next" id="btnNext" onclick="goNext()">Next &#8594;</button>
     </div>
   </div>
 
   <div class="screen" id="s-reflection">
-    <div class="reflection-wrap">
-      <div class="ref-title">One final question.</div>
-      <div class="ref-sub">What is the single biggest obstacle you foresee in starting your business, and how do you plan to overcome it?</div>
-      <textarea id="reflection" placeholder="Optional, but the most valuable thing you can write before you launch."></textarea>
-      <div class="nav-row">
-        <button class="btn-back" onclick="goToQ(9)">&#8592; Back</button>
-        <button class="btn-next" onclick="calcResult()" style="background:#30d158">See Results &#8594;</button>
-      </div>
+    <div class="ref-tag">Final question</div>
+    <div class="ref-title">One thing<br>before your results.</div>
+    <p class="ref-body">What is the single biggest obstacle you foresee in starting your business, and how do you plan to overcome it?</p>
+    <textarea id="reflection" placeholder="Optional. Writing this down is one of the most useful things you can do before you launch."></textarea>
+    <div class="nav">
+      <button class="btn-back" onclick="goToQ(9)">&#8592; Back</button>
+      <button class="btn-next" onclick="calcResult()">See results &#8594;</button>
     </div>
   </div>
 
   <div class="screen" id="s-result">
-    <div class="result-wrap">
-      <div class="result-badge" id="resBadge"></div>
-      <div class="result-title" id="resTitle"></div>
-      <div class="result-body" id="resBody"></div>
-      <div class="score-grid">
-        <div class="score-tile"><div class="s-label">Total Score</div><div class="s-value" id="scTotal"></div><div class="s-sub">out of 50</div></div>
-        <div class="score-tile"><div class="s-label">Products</div><div class="s-value" id="scProd"></div><div class="s-sub">signal</div></div>
-        <div class="score-tile"><div class="s-label">Services</div><div class="s-value" id="scServ"></div><div class="s-sub">signal</div></div>
+    <div class="res-tag" id="resTag"></div>
+    <div class="res-title" id="resTitle"></div>
+    <div class="res-rule"></div>
+    <div class="res-body" id="resBody"></div>
+
+    <div class="score-row">
+      <div class="score-cell">
+        <div class="sc-label">Total score</div>
+        <div class="sc-value" id="scTotal"></div>
+        <div class="sc-sub">out of 50</div>
       </div>
-      <div class="rule"></div>
-      <div class="next-step" id="nextStep"></div>
-      <div class="result-actions">
-        <button class="btn-cta" onclick="window.print()">Save as PDF</button>
-        <button class="btn-outline" onclick="resetAll()">Start Over</button>
+      <div class="score-cell">
+        <div class="sc-label">Products signal</div>
+        <div class="sc-value" id="scProd"></div>
+        <div class="sc-sub">out of 15</div>
       </div>
+      <div class="score-cell">
+        <div class="sc-label">Services signal</div>
+        <div class="sc-value" id="scServ"></div>
+        <div class="sc-sub">out of 15</div>
+      </div>
+    </div>
+
+    <div class="next-head">Where to focus next</div>
+    <div class="next-body" id="nextBody"></div>
+
+    <div class="res-actions">
+      <button class="btn-start" onclick="window.print()">Save as PDF</button>
+      <button class="btn-secondary" onclick="resetAll()">Start over</button>
     </div>
   </div>
 
 </div>
-
 <script>
 const Qs = [
   {id:'q1', text:'I enjoy creating, sourcing, or curating physical or digital items more than working directly with people.'},
@@ -427,39 +588,34 @@ const Qs = [
 ];
 
 const OPTS = ['Strongly Disagree','Disagree','Neutral','Agree','Strongly Agree'];
-const PROD_IDS = ['q3','q4','q6'];
-const SERV_IDS = ['q2','q7','q9'];
+const PROD = ['q3','q4','q6'];
+const SERV = ['q2','q7','q9'];
 const ans = {};
 let cur = 0;
 
-function startQuiz() {
-  show('s-questions');
-  renderQ(0);
-}
+function startQuiz() { show('s-questions'); renderQ(0); }
 
 function renderQ(i) {
   cur = i;
   const q = Qs[i];
   const pct = Math.round((i / Qs.length) * 100);
+  const num = String(i+1).padStart(2,'0');
   document.getElementById('progLabel').textContent = 'Question ' + (i+1) + ' of ' + Qs.length;
   document.getElementById('progPct').textContent = pct + '%';
   document.getElementById('progFill').style.width = pct + '%';
-  document.getElementById('qLabel').textContent = 'Question ' + (i+1) + ' of ' + Qs.length;
-  document.getElementById('qBody').textContent = q.text;
+  document.getElementById('qNum').textContent = num + ' / 10';
+  document.getElementById('qText').textContent = q.text;
   document.getElementById('btnBack').disabled = i === 0;
   document.getElementById('btnNext').textContent = i === Qs.length - 1 ? 'Continue \u2192' : 'Next \u2192';
   document.getElementById('errNote').style.display = 'none';
   document.getElementById('optsList').innerHTML = OPTS.map((l, idx) => {
     const v = idx + 1;
     const c = ans[q.id] === v ? 'checked' : '';
-    return '<div class="opt"><input type="radio" name="q" id="o'+v+'" value="'+v+'" '+c+' onchange="pick('+v+')"><label for="o'+v+'"><span class="opt-ring"></span><span class="opt-n">'+v+'</span><span class="opt-label">'+l+'</span></label></div>';
+    return '<div class="opt"><input type="radio" name="q" id="o'+v+'" value="'+v+'" '+c+' onchange="pick('+v+')"><label for="o'+v+'"><span class="opt-idx">'+v+'</span><span class="opt-marker"></span><span class="opt-text">'+l+'</span></label></div>';
   }).join('');
 }
 
-function pick(v) {
-  ans[Qs[cur].id] = v;
-  document.getElementById('errNote').style.display = 'none';
-}
+function pick(v) { ans[Qs[cur].id] = v; document.getElementById('errNote').style.display = 'none'; }
 
 function goNext() {
   if (!ans[Qs[cur].id]) { document.getElementById('errNote').style.display = 'block'; return; }
@@ -467,7 +623,6 @@ function goNext() {
 }
 
 function goBack() { if (cur > 0) renderQ(cur - 1); }
-
 function goToQ(i) { show('s-questions'); renderQ(i); }
 
 function showReflection() {
@@ -479,27 +634,43 @@ function showReflection() {
 
 function calcResult() {
   const total = Object.values(ans).reduce((s,n) => s+n, 0);
-  const ps = PROD_IDS.reduce((s,id) => s+(ans[id]||0), 0);
-  const ss = SERV_IDS.reduce((s,id) => s+(ans[id]||0), 0);
+  const ps = PROD.reduce((s,id) => s+(ans[id]||0), 0);
+  const ss = SERV.reduce((s,id) => s+(ans[id]||0), 0);
   const diff = ps - ss;
   const type = diff >= 2 ? 'prod' : diff <= -2 ? 'serv' : 'mix';
-  const band = total >= 40 ? 'Strong Readiness' : total >= 25 ? 'Moderate Readiness' : 'Not Yet Ready';
+  const band = total >= 40 ? 'Strong readiness.' : total >= 25 ? 'Moderate readiness.' : 'Not yet ready.';
 
   const D = {
-    prod: { badge:'Products', bc:'badge-green', title: band + '. You lean toward a product business.', body:'Your answers point to a model built on repeatable sales, systems, and scalable fulfilment rather than trading time for money.', next:'Validate demand early. Understand your unit economics, fulfilment logistics, and required startup capital before committing.' },
-    serv: { badge:'Services', bc:'badge-blue', title: band + '. You lean toward a service business.', body:'Your answers reflect a strength in client relationships, expertise-led value, and solving custom problems for individuals or businesses.', next:'Package your offer clearly. Price it with confidence. Focus on landing your first three paying clients before building anything else.' },
-    mix:  { badge:'Hybrid', bc:'badge-amber', title: band + '. A productized service may suit you best.', body:'Your balanced scores suggest a hybrid approach works best for you — a service sold in fixed packages, retainers, or paired with a digital product.', next:'Choose a narrow niche first. Make your offer easy to buy repeatedly, then systematise delivery over time.' }
+    prod: {
+      tag: 'Products', tc: 'res-tag-green',
+      title: band + '\nYou lean toward\na product business.',
+      body: 'Your answers point to a model built on repeatable sales, systems, and scalable fulfilment rather than trading time for money. The strongest signals in your responses relate to operational comfort, income scalability, and upfront capital.',
+      next: 'Validate demand before investing in stock or infrastructure. Understand your unit economics and fulfilment costs. Map out required startup capital and give yourself a clear runway before committing.'
+    },
+    serv: {
+      tag: 'Services', tc: 'res-tag-blue',
+      title: band + '\nYou lean toward\na service business.',
+      body: 'Your answers reflect a strength in client relationships, expertise-led value, and solving custom problems for individuals or businesses. The strongest signals relate to personal skill, relationship energy, and market validation.',
+      next: 'Package your offer into something concrete and clearly priced. Avoid scope creep from the start. Focus on landing three paying clients before building anything else.'
+    },
+    mix: {
+      tag: 'Hybrid', tc: 'res-tag-amber',
+      title: band + '\nA productized service\nmay suit you best.',
+      body: 'Your balanced scores suggest neither a pure product nor a pure service model fits cleanly. A hybrid approach works well here: a service delivered in fixed packages, retainers, or paired with a digital product you build once and sell repeatedly.',
+      next: 'Choose one narrow niche and make your offer easy to understand and easy to buy. Build repeatable delivery first, then layer on scalable assets over time.'
+    }
   };
 
   const d = D[type];
-  document.getElementById('resBadge').textContent = d.badge;
-  document.getElementById('resBadge').className = 'result-badge ' + d.bc;
+  const tag = document.getElementById('resTag');
+  tag.textContent = d.tag;
+  tag.className = 'res-tag ' + d.tc;
   document.getElementById('resTitle').textContent = d.title;
   document.getElementById('resBody').textContent = d.body;
-  document.getElementById('scTotal').textContent = total + '/50';
-  document.getElementById('scProd').textContent = ps + '/15';
-  document.getElementById('scServ').textContent = ss + '/15';
-  document.getElementById('nextStep').textContent = d.next;
+  document.getElementById('scTotal').textContent = total;
+  document.getElementById('scProd').textContent = ps;
+  document.getElementById('scServ').textContent = ss;
+  document.getElementById('nextBody').textContent = d.next;
   show('s-result');
   document.getElementById('progFill').style.width = '100%';
   document.getElementById('progPct').textContent = '100%';
@@ -509,6 +680,7 @@ function calcResult() {
 function show(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function resetAll() {
